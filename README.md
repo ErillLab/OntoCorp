@@ -1,2 +1,2 @@
 # OntoCorp
-Proof of concept of the embedding of biomedical corpora in ontologies
+Proof of concept of the embedding of biomedical corpora in ontologies.
