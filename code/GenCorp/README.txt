@@ -10,7 +10,7 @@ This script is a convenience script to rebuild the ECO-CollecTF Ontology-Corpus.
 If you wish to build your own corpus or you have added new brat folders to the corpus, modify the run_build_corpus_scripts.py file to point to the various paths for the different subfolders and for the different annotators. 
 
 
-python run_build_corpus_scripts.py \path\to\corpus \path\to\eco.obo \path\to\team_uuids.txt corpus-name corpus-source corpus-ID output-OBO.obo
+python run_build_corpus_scripts.py \path\to\corpus \path\to\eco.obo \path\to\team_uuids.txt corpus-name corpus-source corpus-DOI output-OBO.obo
 
 The output-OBO.obo file contains the ontology with corpus.
 
