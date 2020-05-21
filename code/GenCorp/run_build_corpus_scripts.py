@@ -1,27 +1,30 @@
 # Use python 2.7
 # Run the scripts to generate the IAA first. 
-# These IAA scripts create intermediate files
-# used to build the corpus-in-ontology format.
-# This current script hard codes the calls needed to build first the "prep" file
-# and then the final updated OBO file.
-# It hard codes the paths to the corpus files and of the annotators.
-# It is a convenience script to make building the ontology-corpus easier.
+# These IAA scripts create intermediate files used to build the corpus-in-ontology format.
+# 
+# The current script is a convenience script to make building the ontology-corpus easier.
 import os
 import sys
+import json
 
-top_corpus_dir = sys.argv[1]
-eco_obo_file = sys.argv[2]
-team_uuids_fname = sys.argv[3]
-corpus_name = sys.argv[4]
-source = sys.argv[5]
-version_info = sys.argv[6]
-out_fname = sys.argv[7] # the corpus-in-ontology OBO file to create
+config_fname = sys.argv[1]
+top_corpus_dir = sys.argv[2]
+obo_file = sys.argv[3]
+team_uuids_fname = sys.argv[4]
+doi = sys.argv[5]
+corpus_output_fname = sys.argv[6]
 
-num_teams = 3 # 3 separate teams
-corpora_dirs = ["ECO_1_2", "ECO_3", "ECO_4_5"]
-sub_dirs = ["ECO_annotation_1_2", "ECO_annotation3", "ECO_annotation_4_5"]
-num_annotators = [3, 3, 4]
-annot_teams = [["T1", "S1", "A1", "M1"], ["T1", "A2", "D1"], ["A1", "A2", "D1", "M2"]]
+with open(config_fname, 'r') as f:
+  cdata = json.load(f)
+  
+corpus_name = cdata['corpus_name']
+source = cdata['source']
+num_teams = cdata['num_teams']
+corpora_dirs = cdata['corpora_dirs']
+sub_dirs = cdata['sub_dirs']
+num_annotators = cdata['num_annotators']
+annot_teams = cdata['annotator_teams']
+
 prep_fnames = []
 # The preparation files
 for i in range(num_teams): 
@@ -41,6 +44,6 @@ with open(concat_fname, "w") as fpo:
       fpo.write(fpi.read())
       
 # And build the corpus-in-ontology OBO file
-sys_cmd = "python build_corpus_in_ontology.py " + concat_fname +" "+eco_obo_file+" "+team_uuids_fname+" "+corpus_name+" "+source+" "+version_info+" "+out_fname 
+sys_cmd = "python build_corpus_in_ontology.py " + concat_fname +" "+obo_file+" "+team_uuids_fname+" "+corpus_name+" "+source+" "+doi+" "+corpus_output_fname 
 print sys_cmd
 ret_val = os.system(sys_cmd)
