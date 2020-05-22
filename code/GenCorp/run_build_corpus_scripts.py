@@ -11,14 +11,13 @@ config_fname = sys.argv[1]
 top_corpus_dir = sys.argv[2]
 obo_file = sys.argv[3]
 team_uuids_fname = sys.argv[4]
-doi = sys.argv[5]
+source = sys.argv[5]
 corpus_output_fname = sys.argv[6]
 
 with open(config_fname, 'r') as f:
   cdata = json.load(f)
   
 corpus_name = cdata['corpus_name']
-source = cdata['source']
 num_teams = cdata['num_teams']
 corpora_dirs = cdata['corpora_dirs']
 sub_dirs = cdata['sub_dirs']
@@ -44,6 +43,6 @@ with open(concat_fname, "w") as fpo:
       fpo.write(fpi.read())
       
 # And build the corpus-in-ontology OBO file
-sys_cmd = "python build_corpus_in_ontology.py " + concat_fname +" "+obo_file+" "+team_uuids_fname+" "+corpus_name+" "+source+" "+doi+" "+corpus_output_fname 
+sys_cmd = "python build_corpus_in_ontology.py " + concat_fname +" "+obo_file+" "+team_uuids_fname+" "+corpus_name+" "+source+" "+corpus_output_fname 
 print sys_cmd
 ret_val = os.system(sys_cmd)

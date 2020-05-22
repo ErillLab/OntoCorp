@@ -19,11 +19,10 @@ def read_in_uuids(fname, name_pos):
 def create_s_info(s, sid, sp, ep):
   return [{"sentence":s, "sentence_id":sid, "start":sp, "end":ep}]
 
-def create_entry(c_name, sce, doi, cd, pm, annr, s_info, the_annot_props, r_id, r_type, r_props):
+def create_entry(c_name, source, cd, pm, annr, s_info, the_annot_props, r_id, r_type, r_props):
   entry = {}
   entry["corpus"] = c_name
-  entry["source"] = sce # doi
-  entry["doi"] = doi
+  entry["source"] = source # doi
   entry["date"] = cd
   entry["pmid"] = pm
   entry["annotation_id"] = str(uuid.uuid4()) 
@@ -41,7 +40,6 @@ def output_entry(the_entry):
   out_str = '{'
   out_str+=  '"corpus": "'+ the_entry["corpus"]+'", '
   out_str+=  '"source": "'+ the_entry["source"]+'", '
-  out_str+=  '"doi": "'+ the_entry["doi"]+'", '
   out_str+=  '"date": "'  + the_entry["date"]  +'", '
   out_str+=  '"pmid": "'  + the_entry["pmid"]  +'", '
   out_str+= '"annotation_id": "'+the_entry["annotation_id"]+'", '
@@ -58,14 +56,15 @@ prep_fname = sys.argv[1]
 obo_fname = sys.argv[2]
 team_uuids_fname = sys.argv[3]
 corpus_name = sys.argv[4]
-source = sys.argv[5]
-doi_info = sys.argv[6]
-out_fname = sys.argv[7]
+doi_info = sys.argv[5]
+out_fname = sys.argv[6]
 
 cdate = datetime.today().strftime('%Y-%m-%d')
 
 rel_mapping = {"BioProc": "GO:0008150", "MolFn": "GO:0003674", "CellComp": "GO:0005575", "SeqFeat": "SO:0000110", "Phen": "OMP:0000000", "Tax":"Taxonomy/Phylogeny"}
 team_uuids = read_in_uuids(team_uuids_fname, 0)
+
+source = doi_info
 
 # Read in the prep'd corpus first
 corpus = {}
@@ -130,8 +129,8 @@ with open(prep_fname, "r") as fpi:
     rel_type = "RO:0002559"
     rel_props = {"Category":category}
     
-    entry = create_entry(corpus_name, source, doi_info, cdate, pmid, annotator, sentence_info, s_annot_props, rel_id, rel_type, rel_props)
-    entry_ma = create_entry(corpus_name, source, doi_info, cdate, pmid, annotator, assertion_info, a_annot_props, rel_id, rel_type, rel_props)
+    entry = create_entry(corpus_name, source, cdate, pmid, annotator, sentence_info, s_annot_props, rel_id, rel_type, rel_props)
+    entry_ma = create_entry(corpus_name, source, cdate, pmid, annotator, assertion_info, a_annot_props, rel_id, rel_type, rel_props)
     #if len(sentence_id1)>0 and len(sentence_id2) > 0:
       #print pmid, eid, sentence_id1, sentence_id2, entry["annotation_id"], entry['annotation_properties'], entry['sentences'], entry['relationship_properties']
       #print "   ", entry_ma["sentences"], "\n"    
