@@ -46,9 +46,11 @@ def output_entry(the_entry):
   out_str+= '"annotator": "'    +the_entry["annotator"]    +'", '
   out_str+= '"sentences": '            +json.dumps(the_entry["sentences"])+', '
   out_str+= '"annotation_properties": '+json.dumps(the_entry["annotation_properties"])+', '
+  out_str+= '"relationships": [{'
   out_str+= '"relationship_id": "'   +the_entry["relationship_id"]+'", '
   out_str+= '"relationship_type": "' +the_entry["relationship_type"]+'", '
   out_str+= '"relationship_properties": ' + json.dumps(the_entry["relationship_properties"])
+  out_str+= '}]'
   out_str+= '}'
   return out_str
   
